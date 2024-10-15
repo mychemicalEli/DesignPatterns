@@ -46,7 +46,7 @@ public class DbService {
     }
 
     public List<Dog> getDogs() {
-        logger.debug("BdService.Get " + cats.size() + " dogs");
+        logger.debug("BdService.Get " + dogs.size() + " dogs");
         return new ArrayList<>(dogs);
     }
 }

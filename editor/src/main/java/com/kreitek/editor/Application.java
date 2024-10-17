@@ -7,5 +7,4 @@ public class Application {
         Editor editor = editorFactory.getEditor();
         editor.run();
     }
-
 }

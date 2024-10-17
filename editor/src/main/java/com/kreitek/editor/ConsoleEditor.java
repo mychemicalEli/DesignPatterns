@@ -1,6 +1,10 @@
 package com.kreitek.editor;
 
 import com.kreitek.editor.commands.CommandFactory;
+import com.kreitek.editor.exceptions.BadCommandException;
+import com.kreitek.editor.exceptions.ExitException;
+import com.kreitek.editor.memento.EditorCaretaker;
+import com.kreitek.editor.memento.Memento;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -16,17 +20,26 @@ public class ConsoleEditor implements Editor {
     public static final String TEXT_CYAN = "\u001B[36m";
     public static final String TEXT_WHITE = "\u001B[37m";
 
-    private final CommandFactory commandFactory = new CommandFactory();
-    private ArrayList<String> documentLines = new ArrayList<String>();
+
+    private final ArrayList<String> documentLines = new ArrayList<String>();
+    private final EditorCaretaker caretaker = new EditorCaretaker();
+    private final CommandFactory commandFactory = new CommandFactory(caretaker);
+
 
     @Override
     public void run() {
         boolean exit = false;
         while (!exit) {
             String commandLine = waitForNewCommand();
+            Command command;
             try {
-                Command command = commandFactory.getCommand(commandLine);
+                if (!commandLine.equals("undo")) {
+                    caretaker.push(getState());
+                }
+                command = commandFactory.getCommand(commandLine);
                 command.execute(documentLines);
+
+
             } catch (BadCommandException e) {
                 printErrorToConsole("Bad command");
             } catch (ExitException e) {
@@ -38,7 +51,7 @@ public class ConsoleEditor implements Editor {
     }
 
     private void showDocumentLines(ArrayList<String> textLines) {
-        if (textLines.size() > 0){
+        if (textLines.size() > 0) {
             setTextColor(TEXT_YELLOW);
             printLnToConsole("START DOCUMENT ==>");
             for (int index = 0; index < textLines.size(); index++) {
@@ -56,7 +69,7 @@ public class ConsoleEditor implements Editor {
 
     private String waitForNewCommand() {
         printToConsole("Enter a command : ");
-        Scanner scanner = new Scanner(System. in);
+        Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
@@ -64,6 +77,7 @@ public class ConsoleEditor implements Editor {
         printLnToConsole("To add new line -> a \"your text\"");
         printLnToConsole("To update line  -> u [line number] \"your text\"");
         printLnToConsole("To delete line  -> d [line number]");
+        printLnToConsole("To undo changes -> undo ");
     }
 
     private void printErrorToConsole(String message) {
@@ -82,6 +96,10 @@ public class ConsoleEditor implements Editor {
 
     private void printToConsole(String message) {
         System.out.print(message);
+    }
+
+    public Memento getState() {
+        return new Memento(new ArrayList<>(documentLines));
     }
 
 }

@@ -1,11 +1,15 @@
-package com.kreitek.editor;
+package com.kreitek.editor.editors;
 
+import com.kreitek.editor.interfaces.Command;
+import com.kreitek.editor.interfaces.Editor;
 import com.kreitek.editor.commands.CommandFactory;
+import com.kreitek.editor.exceptions.BadCommandException;
+import com.kreitek.editor.exceptions.ExitException;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ConsoleEditor implements Editor {
+public abstract class PrintDocumentLines implements Editor {
     public static final String TEXT_RESET = "\u001B[0m";
     public static final String TEXT_BLACK = "\u001B[30m";
     public static final String TEXT_RED = "\u001B[31m";
@@ -17,7 +21,7 @@ public class ConsoleEditor implements Editor {
     public static final String TEXT_WHITE = "\u001B[37m";
 
     private final CommandFactory commandFactory = new CommandFactory();
-    private ArrayList<String> documentLines = new ArrayList<String>();
+    private ArrayList<String> documentLines = new ArrayList<>();
 
     @Override
     public void run() {
@@ -37,50 +41,35 @@ public class ConsoleEditor implements Editor {
         }
     }
 
-    private void showDocumentLines(ArrayList<String> textLines) {
-        if (textLines.size() > 0){
-            setTextColor(TEXT_YELLOW);
-            printLnToConsole("START DOCUMENT ==>");
-            for (int index = 0; index < textLines.size(); index++) {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("[");
-                stringBuilder.append(index);
-                stringBuilder.append("] ");
-                stringBuilder.append(textLines.get(index));
-                printLnToConsole(stringBuilder.toString());
-            }
-            printLnToConsole("<== END DOCUMENT");
-            setTextColor(TEXT_RESET);
-        }
-    }
+    public abstract void showDocumentLines(ArrayList<String> textLines);
 
-    private String waitForNewCommand() {
+    public String waitForNewCommand() {
         printToConsole("Enter a command : ");
         Scanner scanner = new Scanner(System. in);
         return scanner.nextLine();
     }
 
-    private void showHelp() {
+    public void showHelp() {
         printLnToConsole("To add new line -> a \"your text\"");
         printLnToConsole("To update line  -> u [line number] \"your text\"");
         printLnToConsole("To delete line  -> d [line number]");
     }
 
-    private void printErrorToConsole(String message) {
+    public void printErrorToConsole(String message) {
         setTextColor(TEXT_RED);
         printToConsole(message);
         setTextColor(TEXT_RESET);
     }
 
-    private void setTextColor(String color) {
+    public void setTextColor(String color) {
         System.out.println(color);
     }
 
-    private void printLnToConsole(String message) {
+    public void printLnToConsole(String message) {
         System.out.println(message);
     }
 
-    private void printToConsole(String message) {
+    public void printToConsole(String message) {
         System.out.print(message);
     }
 

@@ -2,7 +2,7 @@ package com.kreitek.editor.editors;
 
 import java.util.ArrayList;
 
-public class TextEditor extends PrintDocumentLines {
+public class TextEditor extends Editor {
     @Override
     public void showDocumentLines(ArrayList<String> textLines) {
         if (textLines.size() > 0){

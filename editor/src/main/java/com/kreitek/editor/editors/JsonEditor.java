@@ -2,7 +2,7 @@ package com.kreitek.editor.editors;
 
 import java.util.ArrayList;
 
-public class JsonEditor extends PrintDocumentLines {
+public class JsonEditor extends Editor {
 
     @Override
     public void showDocumentLines(ArrayList<String> textLines) {

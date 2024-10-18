@@ -1,7 +1,7 @@
 package com.kreitek.editor;
 
 import com.kreitek.editor.editors.EditorFactory;
-import com.kreitek.editor.interfaces.Editor;
+import com.kreitek.editor.editors.Editor;
 
 public class Application {
 

@@ -1,7 +1,5 @@
 package com.kreitek.editor.editors;
 
-import com.kreitek.editor.interfaces.Editor;
-
 public class EditorFactory {
     public Editor getEditor(String typeEditor) {
         switch (typeEditor != null ? typeEditor.toLowerCase() : "") {

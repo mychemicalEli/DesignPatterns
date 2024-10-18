@@ -1,7 +1,6 @@
 package com.kreitek.editor.editors;
 
 import com.kreitek.editor.interfaces.Command;
-import com.kreitek.editor.interfaces.Editor;
 import com.kreitek.editor.commands.CommandFactory;
 import com.kreitek.editor.exceptions.BadCommandException;
 import com.kreitek.editor.exceptions.ExitException;
@@ -9,7 +8,7 @@ import com.kreitek.editor.exceptions.ExitException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public abstract class PrintDocumentLines implements Editor {
+public abstract class Editor {
     public static final String TEXT_RESET = "\u001B[0m";
     public static final String TEXT_BLACK = "\u001B[30m";
     public static final String TEXT_RED = "\u001B[31m";
@@ -23,7 +22,6 @@ public abstract class PrintDocumentLines implements Editor {
     private final CommandFactory commandFactory = new CommandFactory();
     private ArrayList<String> documentLines = new ArrayList<>();
 
-    @Override
     public void run() {
         boolean exit = false;
         while (!exit) {

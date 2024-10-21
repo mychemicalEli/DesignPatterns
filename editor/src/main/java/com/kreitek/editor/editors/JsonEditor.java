@@ -14,7 +14,7 @@ public class JsonEditor extends Editor {
                 String line = textLines.get(index);
                 System.out.print(" {");
                 System.out.print("\"line\": \"" + index + "\",");
-                System.out.print("\"text\": \"" + escapeJson(line) + "\"");
+                System.out.print("\"text\": \"" + line + "\"");
                 System.out.println(" }" + (index < textLines.size() - 1 ? "," : ""));
             }
 
@@ -24,15 +24,4 @@ public class JsonEditor extends Editor {
             System.out.println("{ \"doc\": [] }");
         }
     }
-
-    private String escapeJson(String text) {
-        return text.replace("\"", "\\\"");
-    }
 }
-
-
-
-
-
-
-
